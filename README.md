@@ -97,21 +97,21 @@ res := devise.DatabaseAuthenticatableStrategy{Cfg: cfg}.
 | **Lockable** | `lock_access!` / `unlock_access!`, `failed_attempts`, `valid_for_authentication?` lock gate, `unlock_in` / `maximum_attempts`, unlock-by-token |
 | **Trackable** | `update_tracked_fields` (sign-in count, current/last at + IP) |
 | **Timeoutable** | `timedout?`, `timeout_in` |
-| **Devise helpers** | `friendly_token`, `secure_compare`, `TokenGenerator` (HMAC-SHA256 digest), `email_regexp`, encryptor selection |
+| **Registerable** | `new_with_session`, `update_with_password`, `update_without_password`, `destroy_with_password` (the model-level sign-up/edit flows) |
+| **Devise helpers** | `friendly_token`, `secure_compare`, `TokenGenerator` (HMAC-SHA256 digest over a byte-faithful PBKDF2 `KeyGenerator`), `email_regexp`, encryptor selection |
 | **Warden strategies** | `Authenticatable` / `DatabaseAuthenticatable` on `warden.StrategyResult`, plus a `StrategyRun` seam |
 
 ## Scope & roadmap
 
 **Deferred** (host/roadmap — not this release):
 
-- Rails engine, controllers, routes, views and helpers (`SessionsController`,
-  `RegistrationsController`, ...).
-- Mailers and their templates (only the notification **callbacks** are wired here).
-- `Registerable` sign-up flow, `Omniauthable` (OAuth), generators and i18n.
-- The full ActiveSupport `KeyGenerator` (PBKDF2) behind `TokenGenerator` — the
-  digest algorithm (HMAC-SHA256) is faithful; key derivation is a pluggable
-  [`KeyGenerator`](token_generator.go) seam, defaulting to HMAC-SHA256. Wire
-  Rails' PBKDF2 generator in production for byte-identical digests.
+- The Rails **controllers, routes, views and helpers** (`SessionsController`,
+  `RegistrationsController`, `PasswordsController`, ...) — the HTTP glue. The
+  model-level flows they drive (sign in, register, edit, reset, confirm, unlock)
+  are all here; a Rails app or the rbgo binding wires the request cycle.
+- The Rails **engine, mailers and their templates** — only the notification
+  **callbacks** are wired here (`SendResetPasswordInstructions`, ...).
+- `Omniauthable` (OAuth), the Devise **generators** and **i18n**.
 
 ## Fidelity notes
 
@@ -121,21 +121,42 @@ The crypto and token surfaces are byte-faithful to Devise on MRI 4.0.5:
   against Ruby's `bcrypt` gem, so a hash produced here verifies under MRI Devise
   and vice-versa.
 - **`friendly_token`** reproduces `SecureRandom.urlsafe_base64((n*3)/4)` with the
-  `tr('lIO0', 'sxyz')` substitution.
+  `tr('lIO0', 'sxyz')` substitution — byte-identical output for identical entropy.
 - **`secure_compare`** matches `ActiveSupport::SecurityUtils.secure_compare`
   (length check + constant-time comparison).
 - **`TokenGenerator`** emits `OpenSSL::HMAC.hexdigest("SHA256", key_for(column),
-  value)` digests; only the key-derivation step is a documented seam (see above).
+  value)` digests. [`NewDeviseTokenGenerator(secret)`](token_generator.go)
+  reproduces `Devise.token_generator` in full: the key is derived by a
+  byte-faithful [`PBKDF2KeyGenerator`](token_generator.go) —
+  `ActiveSupport::KeyGenerator` (PBKDF2-HMAC-SHA1, 2¹⁶ iterations, 64-byte key,
+  salt `"Devise <column>"`) wrapped in a `CachingKeyGenerator`. Given the same
+  `secret_key_base`, the stored reset/confirm/unlock digests are **byte-identical**
+  to the gem's, so a raw token issued by either side verifies against a digest
+  stored by the other. (A simpler zero-config `HMACKeyGenerator` remains the
+  default for tests and non-Rails hosts.)
 
 ## Tests & coverage
 
 100% line coverage, enforced in CI, across all module cores — password
 valid/invalid, token generation + expiry, lock/unlock thresholds, remember
-round-trip, confirm, and the validatable rules — exercised through fake
-`Model` / `Finder` seams, with bcrypt driven through `go-ruby-bcrypt`. The
-library cross-compiles and is tested on the six supported 64-bit architectures
-(`amd64`, `arm64`, `riscv64`, `loong64`, `ppc64le`, `s390x` — including
-big-endian s390x) and three operating systems.
+round-trip, confirm, register/edit/destroy, and the validatable rules —
+exercised through fake `Model` / `Finder` seams, with bcrypt driven through
+`go-ruby-bcrypt`. These deterministic tests keep coverage at 100% on their own.
+
+**Differential oracle vs MRI.** On top of them, a set of oracle tests shell out
+to real Ruby and assert byte-parity against the gem's own code paths:
+
+- `oracle_ruby_test.go` needs only Ruby's stdlib (no gems): the
+  reset/confirm/unlock **token digest** (PBKDF2-HMAC-SHA1 key → HMAC-SHA256) and
+  `friendly_token`'s encoding, checked byte-for-byte and in both round-trip
+  directions. These run on the CI lanes that install Ruby.
+- `oracle_gem_test.go` drives `Devise::Encryptor`, `Devise::TokenGenerator` and
+  `Devise.secure_compare` directly; it skip-gates when the `devise`/`bcrypt` gems
+  are absent (run it locally with the gems on `GEM_PATH`).
+
+The library cross-compiles and is tested on the six supported 64-bit
+architectures (`amd64`, `arm64`, `riscv64`, `loong64`, `ppc64le`, `s390x` —
+including big-endian s390x) and three operating systems.
 
 ```sh
 go test -race -cover ./...
