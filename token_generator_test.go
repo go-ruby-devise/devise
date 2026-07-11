@@ -4,7 +4,83 @@
 
 package devise
 
-import "testing"
+import (
+	"errors"
+	"hash"
+	"testing"
+)
+
+func TestPBKDF2KeyGeneratorDefaults(t *testing.T) {
+	g := NewPBKDF2KeyGenerator([]byte("secret"))
+	if g.Iterations != KeyGeneratorIterations || g.KeySize != KeyGeneratorKeySize {
+		t.Fatalf("defaults = (%d,%d), want (%d,%d)", g.Iterations, g.KeySize, KeyGeneratorIterations, KeyGeneratorKeySize)
+	}
+	k := g.GenerateKey("Devise reset_password_token")
+	if len(k) != 64 {
+		t.Fatalf("key length = %d, want 64", len(k))
+	}
+	// Determinism + per-salt divergence.
+	if string(k) != string(g.GenerateKey("Devise reset_password_token")) {
+		t.Fatal("same salt should derive the same key")
+	}
+	if string(k) == string(g.GenerateKey("Devise confirmation_token")) {
+		t.Fatal("different salts should derive different keys")
+	}
+}
+
+func TestPBKDF2KeyGeneratorBareStructDefaults(t *testing.T) {
+	// A bare struct with only Secret set must fall back to ActiveSupport's
+	// defaults, matching NewPBKDF2KeyGenerator.
+	bare := PBKDF2KeyGenerator{Secret: []byte("secret")}
+	full := NewPBKDF2KeyGenerator([]byte("secret"))
+	if string(bare.GenerateKey("Devise unlock_token")) != string(full.GenerateKey("Devise unlock_token")) {
+		t.Fatal("a bare PBKDF2KeyGenerator should default like NewPBKDF2KeyGenerator")
+	}
+}
+
+func TestPBKDF2KeyGeneratorError(t *testing.T) {
+	orig := pbkdf2Key
+	pbkdf2Key = func(func() hash.Hash, string, []byte, int, int) ([]byte, error) {
+		return nil, errors.New("boom")
+	}
+	defer func() { pbkdf2Key = orig }()
+	if k := NewPBKDF2KeyGenerator([]byte("s")).GenerateKey("Devise x"); k != nil {
+		t.Fatalf("on PBKDF2 error GenerateKey = %x, want nil", k)
+	}
+}
+
+func TestCachingKeyGenerator(t *testing.T) {
+	calls := 0
+	inner := funcKeyGen(func(salt string) []byte {
+		calls++
+		return []byte(salt)
+	})
+	g := NewCachingKeyGenerator(inner)
+	a := g.GenerateKey("Devise reset_password_token")
+	b := g.GenerateKey("Devise reset_password_token") // cache hit
+	if string(a) != string(b) {
+		t.Fatal("cache hit should return the same key")
+	}
+	if calls != 1 {
+		t.Fatalf("inner called %d times, want 1 (second is cached)", calls)
+	}
+	_ = g.GenerateKey("Devise confirmation_token") // cache miss
+	if calls != 2 {
+		t.Fatalf("inner called %d times, want 2 after a miss", calls)
+	}
+}
+
+func TestNewDeviseTokenGeneratorNonEmpty(t *testing.T) {
+	tg := NewDeviseTokenGenerator([]byte("secret_key_base"))
+	if d := tg.Digest("reset_password_token", "raw"); d == "" {
+		t.Fatal("Devise token generator should digest a non-empty value")
+	}
+}
+
+// funcKeyGen adapts a function to the KeyGenerator interface for the caching test.
+type funcKeyGen func(salt string) []byte
+
+func (f funcKeyGen) GenerateKey(salt string) []byte { return f(salt) }
 
 func TestHMACKeyGeneratorDeterministic(t *testing.T) {
 	g := HMACKeyGenerator{Secret: []byte("secret")}
