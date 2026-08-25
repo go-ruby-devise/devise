@@ -6,6 +6,8 @@ github.com/go-ruby-rack/rack v0.0.0-20260705200150-888027c33329 h1:4sXRBW9MXaEuo
 github.com/go-ruby-rack/rack v0.0.0-20260705200150-888027c33329/go.mod h1:rKZ3vD81gJq61NvZ3XX9cr6AxtIV3+lFZKG7lPKV3PM=
 github.com/go-ruby-warden/warden v0.0.0-20260706101215-2f981700c22b h1:36aRtGdVZNfcGUILST7UT+2PVfbRMuYE1+AWdnz7778=
 github.com/go-ruby-warden/warden v0.0.0-20260706101215-2f981700c22b/go.mod h1:oI3L9dywsrSXJqLDuJGIYuHUHRCxUS7BU8PBZGXpx4A=
+github.com/go-ruby-warden/warden v0.0.0-20260717075327-ec00bbaddc55 h1:/p7gEZ79MNOAQTtH4TCCLm6rNzNYO+DE3fCyR7mlBZs=
+github.com/go-ruby-warden/warden v0.0.0-20260717075327-ec00bbaddc55/go.mod h1:oI3L9dywsrSXJqLDuJGIYuHUHRCxUS7BU8PBZGXpx4A=
 golang.org/x/crypto v0.53.0 h1:QZ4Muo8THX6CizN2vPPd5fBGHyogrdK9fG4wLPFUsto=
 golang.org/x/crypto v0.53.0/go.mod h1:DNLU434OwVakk9PzuwV8w62mAJpRJL3vsgcfp4Qnsio=
 golang.org/x/crypto v0.55.0 h1:+KWHjbgOaAQ66dh/YlkZKHlz9ZUlq61AFirAR9ntP8M=
