@@ -4,10 +4,14 @@ github.com/go-ruby-bcrypt/bcrypt v0.0.0-20260820043952-219c186d8d4b h1:dI4Z4Q+fq
 github.com/go-ruby-bcrypt/bcrypt v0.0.0-20260820043952-219c186d8d4b/go.mod h1:1Uni9FPhIhayxFZed2cdh6b/XSDVRyhaMkBNsWP4DXE=
 github.com/go-ruby-rack/rack v0.0.0-20260705200150-888027c33329 h1:4sXRBW9MXaEuosiyzzk1Fh+C8R2+PiPdua5sutdvV+E=
 github.com/go-ruby-rack/rack v0.0.0-20260705200150-888027c33329/go.mod h1:rKZ3vD81gJq61NvZ3XX9cr6AxtIV3+lFZKG7lPKV3PM=
+github.com/go-ruby-rack/rack v0.0.0-20260717072552-0eeee2b1ab82 h1:1wUKvLYf43VJRrtqXOenHJ5bkBy+BBHU+b7PKXTQVkI=
+github.com/go-ruby-rack/rack v0.0.0-20260717072552-0eeee2b1ab82/go.mod h1:rKZ3vD81gJq61NvZ3XX9cr6AxtIV3+lFZKG7lPKV3PM=
 github.com/go-ruby-warden/warden v0.0.0-20260706101215-2f981700c22b h1:36aRtGdVZNfcGUILST7UT+2PVfbRMuYE1+AWdnz7778=
 github.com/go-ruby-warden/warden v0.0.0-20260706101215-2f981700c22b/go.mod h1:oI3L9dywsrSXJqLDuJGIYuHUHRCxUS7BU8PBZGXpx4A=
 github.com/go-ruby-warden/warden v0.0.0-20260717075327-ec00bbaddc55 h1:/p7gEZ79MNOAQTtH4TCCLm6rNzNYO+DE3fCyR7mlBZs=
 github.com/go-ruby-warden/warden v0.0.0-20260717075327-ec00bbaddc55/go.mod h1:oI3L9dywsrSXJqLDuJGIYuHUHRCxUS7BU8PBZGXpx4A=
+github.com/go-ruby-warden/warden v0.0.0-20260825131515-95421a9093e6 h1:9ZJCX5Z/R24F4E+b91fikPuOt3jhAzZND0t2eflReF4=
+github.com/go-ruby-warden/warden v0.0.0-20260825131515-95421a9093e6/go.mod h1:szQpJ2qwgYZqiBaTtuhKwL9Sl8ICQzlkX30Kr6Td9/c=
 golang.org/x/crypto v0.53.0 h1:QZ4Muo8THX6CizN2vPPd5fBGHyogrdK9fG4wLPFUsto=
 golang.org/x/crypto v0.53.0/go.mod h1:DNLU434OwVakk9PzuwV8w62mAJpRJL3vsgcfp4Qnsio=
 golang.org/x/crypto v0.55.0 h1:+KWHjbgOaAQ66dh/YlkZKHlz9ZUlq61AFirAR9ntP8M=
