@@ -4,6 +4,8 @@ github.com/go-ruby-bcrypt/bcrypt v0.0.0-20260820043952-219c186d8d4b h1:dI4Z4Q+fq
 github.com/go-ruby-bcrypt/bcrypt v0.0.0-20260820043952-219c186d8d4b/go.mod h1:1Uni9FPhIhayxFZed2cdh6b/XSDVRyhaMkBNsWP4DXE=
 github.com/go-ruby-bcrypt/bcrypt v0.0.0-20260903192730-d0d68e3da0a3 h1:Rzt/l98hjICzBRCFYpHV2hxUtjya1WqeFT0MxlGvRY4=
 github.com/go-ruby-bcrypt/bcrypt v0.0.0-20260903192730-d0d68e3da0a3/go.mod h1:Sz8aAv06ElQr4CVeXx+YaChM/K9EVrUSPfb0fCNPKtY=
+github.com/go-ruby-bcrypt/bcrypt v0.0.0-20260910084300-2111db3fb6c6 h1:QwRumJVSoTDFDbZAZCLoCFV1b7Q8AFRB3YTx3yTLBio=
+github.com/go-ruby-bcrypt/bcrypt v0.0.0-20260910084300-2111db3fb6c6/go.mod h1:MYTkJdtdQ0WBH9Uy8zVusKqzh2vPhDIeRo2yoU7VDys=
 github.com/go-ruby-rack/rack v0.0.0-20260705200150-888027c33329 h1:4sXRBW9MXaEuosiyzzk1Fh+C8R2+PiPdua5sutdvV+E=
 github.com/go-ruby-rack/rack v0.0.0-20260705200150-888027c33329/go.mod h1:rKZ3vD81gJq61NvZ3XX9cr6AxtIV3+lFZKG7lPKV3PM=
 github.com/go-ruby-rack/rack v0.0.0-20260717072552-0eeee2b1ab82 h1:1wUKvLYf43VJRrtqXOenHJ5bkBy+BBHU+b7PKXTQVkI=
@@ -20,3 +22,5 @@ golang.org/x/crypto v0.55.0 h1:+KWHjbgOaAQ66dh/YlkZKHlz9ZUlq61AFirAR9ntP8M=
 golang.org/x/crypto v0.55.0/go.mod h1:uq0V9dE/fzQuJtbnL+2EhWOE63vo164FY8xqEnV9xis=
 golang.org/x/crypto v0.56.0 h1:GUh5Ii4J5jtcseSMiRqr1jXCNHoxjeV9Fmekc2oLy6Y=
 golang.org/x/crypto v0.56.0/go.mod h1:OMW5y6CY9l38uPLmxU6l6pwcXp1obtLo3e6gT7gQR2I=
+golang.org/x/crypto v0.57.0 h1:3ZVCjf8Ggz7zneR/EHRVx68Ctf+2pmIMP2UFhh9cC6M=
+golang.org/x/crypto v0.57.0/go.mod h1:Fdz0i5U6CoizGwLda9DttjSk6qlZo25zYNtR+ycvuZA=
