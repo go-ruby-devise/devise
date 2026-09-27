@@ -10,6 +10,8 @@ github.com/go-ruby-rack/rack v0.0.0-20260705200150-888027c33329 h1:4sXRBW9MXaEuo
 github.com/go-ruby-rack/rack v0.0.0-20260705200150-888027c33329/go.mod h1:rKZ3vD81gJq61NvZ3XX9cr6AxtIV3+lFZKG7lPKV3PM=
 github.com/go-ruby-rack/rack v0.0.0-20260717072552-0eeee2b1ab82 h1:1wUKvLYf43VJRrtqXOenHJ5bkBy+BBHU+b7PKXTQVkI=
 github.com/go-ruby-rack/rack v0.0.0-20260717072552-0eeee2b1ab82/go.mod h1:rKZ3vD81gJq61NvZ3XX9cr6AxtIV3+lFZKG7lPKV3PM=
+github.com/go-ruby-rack/rack v0.0.0-20260916101131-d86b924dd331 h1:r+OCRLteRUid3hfcrC5Tah3yUITFF9hrWygvIZoily4=
+github.com/go-ruby-rack/rack v0.0.0-20260916101131-d86b924dd331/go.mod h1:rKZ3vD81gJq61NvZ3XX9cr6AxtIV3+lFZKG7lPKV3PM=
 github.com/go-ruby-warden/warden v0.0.0-20260706101215-2f981700c22b h1:36aRtGdVZNfcGUILST7UT+2PVfbRMuYE1+AWdnz7778=
 github.com/go-ruby-warden/warden v0.0.0-20260706101215-2f981700c22b/go.mod h1:oI3L9dywsrSXJqLDuJGIYuHUHRCxUS7BU8PBZGXpx4A=
 github.com/go-ruby-warden/warden v0.0.0-20260717075327-ec00bbaddc55 h1:/p7gEZ79MNOAQTtH4TCCLm6rNzNYO+DE3fCyR7mlBZs=
